@@ -71,16 +71,25 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             menu.style.gap = "10px";
             menu.style.zIndex = "10000";
 
-            const button1 = document.createElement("button");
-            button1.innerText = "Informacion Imagenes";
-            button1.style.background = "#007bff";
-            button1.style.color = "white";
-            button1.style.border = "none";
-            button1.style.padding = "10px 15px";
-            button1.style.cursor = "pointer";
-            button1.style.borderRadius = "5px";
-            button1.style.fontSize = "14px";
+            const createButton = (text) => {
+                const button = document.createElement("button");
+                button.innerText = text;
+                button.style.background = "#007bff";
+                button.style.color = "white";
+                button.style.border = "none";
+                button.style.padding = "10px 15px";
+                button.style.cursor = "pointer";
+                button.style.borderRadius = "5px";
+                button.style.fontSize = "14px";
+                button.style.transition = "background 0.3s, transform 0.2s";
+                button.onmouseover = () => button.style.background = "#0056b3";
+                button.onmouseleave = () => button.style.background = "#007bff";
+                button.onmousedown = () => button.style.transform = "scale(0.95)";
+                button.onmouseup = () => button.style.transform = "scale(1)";
+                return button;
+            };
 
+            const button1 = createButton("Informacion Imagenes");
             button1.onclick = () => {
                 document.querySelectorAll("img").forEach(img => {
                     const tooltip = document.createElement("div");
@@ -108,16 +117,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
                 });
             };
 
-            const button2 = document.createElement("button");
-            button2.innerText = "Precio Mas Bajo";
-            button2.style.background = "#007bff";
-            button2.style.color = "white";
-            button2.style.border = "none";
-            button2.style.padding = "10px 15px";
-            button2.style.cursor = "pointer";
-            button2.style.borderRadius = "5px";
-            button2.style.fontSize = "14px";
-
+            const button2 = createButton("Precio Mas Bajo");
             button2.onclick = () => {
                 const products = document.querySelectorAll(".p13n-sc-uncoverable-faceout, .s-result-item");
                 let lowestPriceElement = null;
@@ -158,6 +158,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         }
     });
 });
+
 
 
 
