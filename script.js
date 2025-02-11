@@ -70,9 +70,9 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             menu.style.flexDirection = "column";
             menu.style.gap = "10px";
             menu.style.zIndex = "10000";
-            
+
             const button1 = document.createElement("button");
-            button1.innerText = "Información Imágenes";
+            button1.innerText = "Informacion Imagenes";
             button1.style.background = "#007bff";
             button1.style.color = "white";
             button1.style.border = "none";
@@ -80,6 +80,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             button1.style.cursor = "pointer";
             button1.style.borderRadius = "5px";
             button1.style.fontSize = "14px";
+
             button1.onclick = () => {
                 document.querySelectorAll("img").forEach(img => {
                     const tooltip = document.createElement("div");
@@ -106,9 +107,9 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
                     });
                 });
             };
-            
+
             const button2 = document.createElement("button");
-            button2.innerText = "Precio Más Bajo";
+            button2.innerText = "Precio Mas Bajo";
             button2.style.background = "#007bff";
             button2.style.color = "white";
             button2.style.border = "none";
@@ -116,12 +117,51 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             button2.style.cursor = "pointer";
             button2.style.borderRadius = "5px";
             button2.style.fontSize = "14px";
-            
+
+            button2.onclick = () => {
+                const products = document.querySelectorAll(".p13n-sc-uncoverable-faceout, .s-result-item");
+                let lowestPriceElement = null;
+                let lowestPrice = Infinity;
+
+                products.forEach(product => {
+                    const priceElement = product.querySelector(".a-price-whole");
+                    if (priceElement) {
+                        const priceText = priceElement.innerText.replace(/[^0-9]/g, "");
+                        const price = parseFloat(priceText);
+                        if (!isNaN(price) && price < lowestPrice) {
+                            lowestPrice = price;
+                            lowestPriceElement = product;
+                        }
+                    }
+                });
+
+                if (lowestPriceElement) {
+                    lowestPriceElement.style.border = "3px solid red";
+                    lowestPriceElement.style.backgroundColor = "#fffae6";
+
+                    const priceTag = lowestPriceElement.querySelector(".a-price-whole");
+                    if (priceTag) {
+                        priceTag.style.backgroundColor = "yellow";
+                        priceTag.style.fontWeight = "bold";
+                        priceTag.style.padding = "3px";
+                    }
+
+                    lowestPriceElement.scrollIntoView({ behavior: "smooth", block: "center" });
+                } else {
+                    console.log("No se encontró un precio válido en toda la web.");
+                }
+            };
+
             menu.appendChild(button1);
             menu.appendChild(button2);
             document.body.appendChild(menu);
         }
     });
 });
+
+
+
+
+
 
 
